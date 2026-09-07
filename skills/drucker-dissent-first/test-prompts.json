@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-dissent-first",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "方案评审会所有人都通过了，我是不是该高兴？",
+      "expected_behavior": "应激活 drucker-dissent-first：诊断为'信息不足的信号'，不是决策成熟的信号。主动制造异见——分派对立视角独立研究。三个理由里最硬的是第一条：没有异议，你就一定是某个特别辩护人的囚徒。质量要求：异见必须合乎逻辑、经过深思熟虑且有根有据。把异见固化为备选方案（若主方案失灵则启用）。",
+      "notes": "V2 预测力测试场景：典型'一致通过'陷阱。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我们准备做战略决策，但没人敢说不同意见，怎么办？",
+      "expected_behavior": "应激活 drucker-dissent-first：诊断为'没人敢说'问题。主动制造异见：①分派对立视角（让其在独立条件下研究为什么这个假设可能错）；②对每条保留意见先问'他要看到哪些东西，他的立场才站得住'（先假设对方聪明且无恶意）。把异见固化为备选方案。",
+      "notes": "正面场景：异见激发的结构化操作。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们对决策有不同的声音，但都觉得'为反对而反对'不好，怎么办？",
+      "expected_behavior": "应激活 drucker-dissent-first：异见不能是'为反对而反对'——必须合乎逻辑、经过深思熟虑且有根有据。操作：分派对立视角独立研究；先假设对方聪明且无恶意，先问'他要看到哪些东西'（理解再判对错，而非先判对错）。把异见固化为完整备选方案（触发条件/执行方案/资源）。",
+      "notes": "正面场景：异见质量要求与处理流程。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们要不要做这个决策？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-decision-necessity。本 skill 关心'决策**过程中**的异见激发'，那个 skill 关心'决策**前**的必要性判断'。顺序应先那个 skill 决定做不做，再本 skill 决定怎么做。",
+      "notes": "跨 skill 混淆诱饵：决策前 vs 决策过程中。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们的一项指标都在好转，但一线抱怨增多，怎么办？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-opinion-and-measure。本 skill 关心'决策过程中的异见激发'，那个 skill 关心'决策基于观点/衡量标准的检验'（相关性标准替换/平均值陷阱/现场调查）。决策质量 vs 决策基础是不同的关注点。",
+      "notes": "跨 skill 混淆诱饵：决策过程管理 vs 决策基础管理。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我们公司发生重大危机，必须一致行动，还需要'异见激发'吗？",
+      "expected_behavior": "不应激活本 skill，紧急危机下一致行动优先。明确告知：本 skill 不适用于紧急危机——异见激发会拖慢响应。危机结束后，应复盘哪些决策因'没人敢说'而失效。",
+      "notes": "边界场景：紧急危机下本 skill 不适用。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}

@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-generic-vs-exception",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "客户投诉这周来了第三次，每次原因都不同，怎么处理？",
+      "expected_behavior": "应激活 drucker-generic-vs-exception：默认先验是'这是共性问题的症状'（先去找背后的基础问题，而非逐个安抚）。四分类定位：真共性立规则/对我方是特例但本身共性借鉴规则/真例外个别处理/新共性首演按共性处理。自检三种归类错误。",
+      "notes": "V2 预测力测试场景：典型'逐个处理同类问题'困境。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我每周都在做相似的判断——是不是应该建立规则？",
+      "expected_behavior": "应激活 drucker-generic-vs-exception：识别为典型'决策频率过高'——'如果你在同一类事情上不断做决策，说明你没建立原则'。建立规则化机制（流程/政策/SOP），降低决策频率。明确告知：决策频率本身是无效率的信号。",
+      "notes": "正面场景：决策频率过高的根本诊断。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们的团队解释'具体情况具体分析'是常态，要不要这么灵活？",
+      "expected_behavior": "应激活 drucker-generic-vs-exception：诊断为'实用主义'陷阱——'具体情况具体分析'会导致挫败和徒劳。德鲁克说实用主义必然导致挫败。规则化机制优于逐个处理。明确告知：归类错误比决策错误代价更大。",
+      "notes": "正面场景：实用主义陷阱识别。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们要不要做这个决策？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-decision-necessity。本 skill 关心'问题的归类'（决策前），那个 skill 关心'要不要决策'（决策前的必要性）。顺序：先那个 skill 决定做不做，再本 skill 归类问题类型。",
+      "notes": "跨 skill 混淆诱饵：归类 vs 必要性。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们要做这个决策了，怎么定义决策目标？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-boundary-conditions。本 skill 关心'问题的类型'（归类），那个 skill 关心'决策目标的边界'（边界条件）。本 skill 在前，那个 skill 在后。",
+      "notes": "跨 skill 混淆诱饵：问题类型 vs 决策目标。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我们公司刚经历一次黑天鹅事件（一次性极小概率事件），需要做归类吗？",
+      "expected_behavior": "不应激活本 skill，本场景是纯一次性事件——不属本 skill 范畴。明确告知：本 skill 关心的是'反复出现的归类'，单次事件归入 drucker-decision-necessity（是否决策）即可。",
+      "notes": "边界场景：一次性事件不适用本 skill。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}

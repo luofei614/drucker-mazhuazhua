@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-decision-necessity",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "竞品刚上了 AI 功能，我们要不要跟？",
+      "expected_behavior": "应激活 drucker-decision-necessity：先把'不跟'显式列为备选方案。三情境：①不跟会不会恶化（客户流失不可逆？）；②是不是稍纵即逝（窗口只有 3 个月？）；③会不会自愈（只是媒体噪音？）。多半落在中间地带——比较行动代价与不行动风险。一旦决定跟，**绝不骑墙**（半吊子风险与全做相同但收益为零）。拦截'我们再研究研究'。",
+      "notes": "V2 预测力测试场景：典型'跟不跟竞品'困境。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我们准备做一个新项目，但会上总有人说'再研究研究'，怎么办？",
+      "expected_behavior": "应激活 drucker-decision-necessity：拦截'再研究研究'——问'有什么理由相信再做一次研究会有新发现'，答案为否就不允许再研究。明确告知：研究不是决策的替代。",
+      "notes": "正面场景：'再研究研究'拦截器应用。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们的方案大家都说要做'一半看看'，这样稳妥吗？",
+      "expected_behavior": "应激活 drucker-decision-necessity：诊断为'骑墙决策'——半吊子的风险与全做相同但收益为零（只切除半个扁桃体）。明确告知：骑墙 = 全风险 + 零收益。决策必须明确执行完整方案或放弃。",
+      "notes": "正面场景：骑墙决策识别与拒绝。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们要做这个决策了，怎么把决策落地为行动？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-decision-to-action。本 skill 关心'要不要决策'（决策前），那个 skill 关心'如何把决策落地'（决策后）。顺序应先本 skill 决定做不做，再那个 skill 决定怎么做。",
+      "notes": "跨 skill 混淆诱饵：决策前 vs 决策后。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们要做这个决策了，方案一致通过，要不要做？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-dissent-first。一致通过是信息不足的信号——主动制造异见，分派对立视角独立研究。本 skill 关心'要不要决策'，那个 skill 关心'决策过程中的异见激发'。顺序：先本 skill 决定做不做，再那个 skill 决定怎么做。",
+      "notes": "跨 skill 混淆诱饵：决策必要性 vs 决策过程中的异见激发。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我们工厂发生重大安全事故，必须立即停工停产，需要评估'要不要决策'吗？",
+      "expected_behavior": "不应激活本 skill，应走紧急安全处置流程——立即执行停产撤人。本 skill 的'三情境'和'不作为'备选方案不适用于紧急危机。明确告知：紧急危机处置不在本 skill 范畴。",
+      "notes": "边界场景：紧急危机下本 skill 不适用。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}

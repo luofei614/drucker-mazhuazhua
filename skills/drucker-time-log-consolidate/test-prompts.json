@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-time-log-consolidate",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "最近忙得要死，一天到晚都在处理事情，但说不出来时间具体花在哪了，感觉什么都没做成。",
+      "expected_behavior": "应激活 drucker-time-log-consolidate：先要求做三四周的实时时间记录（明确拒绝用记忆或周报回填代替），再走三个诊断问题与集中整块的步骤，并给出防漂移的重复机制。",
+      "notes": "最典型的正面场景：'忙' + 说不出时间去向，正是本 skill 的核心触发信号。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我准备下个季度上一套新的时间管理系统，先帮我规划一下每天的时间块怎么排。",
+      "expected_behavior": "应激活 drucker-time-log-consolidate：指出在没有任何实录数据的情况下排时间块等于盲排，先做实时记录拿到数据再谈排布。",
+      "notes": "介入型正面场景：任何时间管理方法推行之前都应是本 skill 的前置。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们团队 Leader 说他自己三分之一时间在战略、三分之一在客户、三分之一在团建，我总觉得不对但说不上来。",
+      "expected_behavior": "应激活 drucker-time-log-consolidate：这是书中董事长案例的同构场景，应建议用实录对照记忆版，让两份记录自己说话；并注意用户评价的是他人，需提醒实录要由本人做才有说服力。",
+      "notes": "V1 案例 c03 的现代复现，属于高置信度触发。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "帮我把这周的十几个待办事项按轻重缓急排个序，告诉我先做哪个。",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-priority-posteriority。用户问的是'这些时间该给谁'（分配问题），不是'我到底有多少可用时间'（容量问题）。若用户尚未做过时间实录，可提示先补容量数据，但主调用应是优先/延迟。",
+      "notes": "跨 skill 混淆诱饵：与个人时间管理高度相邻，但问的是优先级排序而非时间去向。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们公司最近会议特别多，大家都抱怨，而且同样的问题一个月内出了两次，这是不是管理有问题？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-org-time-waste-check。症状（会议占比、危机二次出现）都在组织层，个人做时间实录解决不了，需要用四类可量化阈值做组织诊断。",
+      "notes": "跨 skill 混淆诱饵（硬性要求）：同为第2章内容，但层级不同——个人层 vs 组织层。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我是 ICU 护士，三班倒，上班期间基本不能离开病房，我也想提高自己的效率，该怎么管理时间？",
+      "expected_behavior": "可以激活本 skill，但必须在 B 段边界上明确告知：可自由支配时间趋近于零的岗位（临床护理一线、实时响应岗位），'集中成整块'在物理上不成立，本 skill 的第三步及其下游失效。建议只取用'记录'的部分做个人观察，并如实说明不应期待它能解决效率问题。",
+      "notes": "边界场景：触发条件成立（时间不够/效率低），但 B 段的适用边界命中，考验 skill 是否会诚实收敛而不是硬套。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-02 为同书兄弟 skill 的跨 skill 混淆测试。"
+}

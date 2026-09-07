@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-managing-up",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我的方案被老板第三次打回了，每次理由都不一样，怎么办？",
+      "expected_behavior": "应激活 drucker-managing-up：三次理由不同恰恰说明内容不是问题。改方式：①识别他是善读者还是善听者；②调整顺序（上级长于政治就把政治因素放最前）；③回到四问最关键的一问'他要从我这里得到什么'——反复打回很可能是在要一个他能他能在他的上级面前复述的版本。明确告知：不要试图改造上级。",
+      "notes": "V2 预测力测试场景：典型'反复打回'困境。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我换了新老板，需要重新建立协作关系，第一周我该做什么？",
+      "expected_behavior": "应激活 drucker-managing-up：观察新上级的工作模式，识别信息获取偏好（善读者/善听者/混合），回答四问（上级真正擅长什么/过去做得特别好的是什么/他要了解什么才能发挥长处/他要从我这里得到什么才能做好工作）。",
+      "notes": "正面场景：换新老板的协作重校准。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我老板太固执了，明明我说的有道理他还是不听，怎么办？",
+      "expected_behavior": "应激活 drucker-managing-up：识别'老板固执'的归因错误——很可能是方式错而非内容错。调整呈现方式（善读者→写一页纸；善听者→当面讲）、顺序（上级长于某领域→放最前）。明确告知：适应方向应向下而非向上。",
+      "notes": "正面场景：抱怨'老板外行/固执'触发。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我要给上级提一个关键决策建议，需要他的支持，怎么说服他？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-contribution-triangle。'说服上级'是输出定位问题（贡献由接收方定义，要搞清楚他要什么）——本 skill 关心'如何让上级发挥长处'，那是输出定位后的方式问题。先用 contribution-triangle 明确'该交付什么'，再用 managing-up 决定'怎么交付'。",
+      "notes": "跨 skill 混淆诱饵：内容/定位先于方式/呈现。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我准备做一项重大决策，但所有人都同意，要不要做？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-dissent-first。一致通过是信息不足的信号——主动制造异见，分派对立视角独立研究。本 skill 关心'让上级采纳'（共识导向），那个 skill 关心'激发异见'（分歧导向）。两个 skill 不冲突：平时用 managing-up，关键决策用 dissent-first。",
+      "notes": "跨 skill 混淆诱饵：共识导向 vs 分歧导向。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我老板本身就是个不称职的管理者，任人唯亲，反复无常，要不要'管理他'？",
+      "expected_behavior": "可以激活本 skill，但必须在 B 段边界上明确告知：本 skill 不适用于'上级是病态管理者'的场景——违反正直一票否决（参见 drucker-strength-staffing）的上级，本 skill 不是为他服务的工具。组织系统性不公（如制度性徇私）也不适用，那是组织变革议题。",
+      "notes": "边界场景：触发条件成立（管理上级），但 B 段边界命中，考验 skill 是否诚实收敛。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}

@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-indispensable-person",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "公司唯一懂那套遗留系统的人要离职，加薪也留不住，怎么办？",
+      "expected_behavior": "应激活 drucker-indispensable-person：把'他要走'当诊断信号。三诊断：①他其实并不能干（要求低）；②他的长处在支撑无能上级/流程；③他的存在一直在掩盖'这套系统必须重写'的迟早要爆问题。处置：让他走（或立刻交接），暴露被掩盖的问题。",
+      "notes": "V2 预测力测试场景：典型单点依赖的现代复现。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我的核心骨干想申请调岗，上级死活不同意，说'他走了这边就转不动'，要不要批？",
+      "expected_behavior": "应激活 drucker-indispensable-person：识别'少了就走不动'是组织病灶的指示器。诊断三种可能，处置是立刻调离（或完成交接），暴露被掩盖问题。不是'想办法挽留'，而是'为什么组织允许单点依赖存在这么久'。",
+      "notes": "正面场景：经典'少不了'信号触发。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "公司年度人员盘点，某几个岗位长期由同一人担当，被反复表扬'不可替代'，需要复盘吗？",
+      "expected_behavior": "应激活 drucker-indispensable-person：识别'不可替代'作为组织病灶的指示器。逐个排查三种诊断。处置是立刻调离或构造被迫缺席（如长假）让被掩盖问题显现。",
+      "notes": "正面场景：组织盘点时识别'少不了'信号。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们要给一位资深员工涨薪挽留，他可能要离职，怎么办？",
+      "expected_behavior": "不应激活本 skill（除非先完成三诊断），应激活薪酬挽留流程。本 skill 关心'他是否应该留任'（诊断），薪酬挽留关心'如何让人满意从而留任'（操作）。前者是判断该不该，后者是假定该。",
+      "notes": "跨 skill 混淆诱饵：薪酬挽留假设留任为正，本 skill 质疑留任。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们的'AI 转型负责人'两年换了三任，都是外招明星，行业普遍如此，怎么办？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-job-redesign。本场景是'职位本身无人能胜任'（连续挫败外部候选人），应启动职位重设计（拆分职位）；本 skill 是'此人本身是否组织病灶'（已有任现职者）。判据切换：候选者失败 → 那个 skill；在岗者病灶 → 本 skill。",
+      "notes": "跨 skill 混淆（硬性要求）：同为第4章用人内容，但本 skill 关心在岗者，那个 skill 关心职位本身。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我是创始团队唯一懂机器学习的人，公司正在做 AI 转型，我能不能说我'不可替代'？",
+      "expected_behavior": "可以激活本 skill，但必须在 B 段边界上明确告知：创始人驱动型公司早期'创始人 = 关键能力'是事实限制，不是组织病灶。本 skill 不适用于此阶段。组织成熟后（>50 人），同样的依赖则需启动三诊断。",
+      "notes": "边界场景：触发条件成立（单点依赖），但创业期不适用本 skill。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}

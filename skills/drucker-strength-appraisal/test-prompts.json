@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-strength-appraisal",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "要给一个业绩很好但合作方普遍反映'难打交道'的下属写绩效评价，怎么写？",
+      "expected_behavior": "应激活 drucker-strength-appraisal：先列期望贡献与对照目标的实绩，四问从'他在哪个方面已经做得很好'起步，'难打交道'按局限处理——通过职位安排/协作接口让它无关紧要（不是写进'改进计划'）。第四问是唯一否决项（正直）。",
+      "notes": "V2 预测力测试场景：典型'业绩好但难相处'经典困境，本 skill 提供第三种处理（既不纵容也不纠错，而是设计掉）。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "季度绩效评估开始了，HR 让填表，但表里全是'改进建议'列，怎么改？",
+      "expected_behavior": "应激活 drucker-strength-appraisal：诊断考评表设计——'全是改进项'是工具错配（临床心理诊断法用于健康人）。把考评翻转为长处清单：先列期望贡献与实绩，再走四问。",
+      "notes": "正面场景：考评工具错配的发现与重设计。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "晋升答辩中两个候选人业绩都不错，其中一个'品德存疑'（曾私下跟同事说过不实的话），怎么判？",
+      "expected_behavior": "应激活 drucker-strength-appraisal：四问走到第四问——'如果我有儿女，愿意送到他手下去工作吗'。答案为否则一票否决，不论前几问多漂亮。明确告知：有魄力但品德败坏者会成为聪明年轻人的楷模，破坏最系统化。",
+      "notes": "正面场景：正直一票否决的具体应用。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们要给一位 35 岁算法专家发 offer，没带过团队，沟通有短板，要不要发？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-strength-staffing。本场景是任用前的判断（选/用），不是任用中的持续考评。本 skill 关心'已选错如何识别长处、规划成长'，那个 skill 关心'如何选对人'。",
+      "notes": "跨 skill 混淆诱饵：同为第4章用人内容，但本 skill 是任用中持续考评，前置 skill 是任用前判断。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "怎么写一份简洁的考核表？HR 让我设计工具。",
+      "expected_behavior": "不应激活本 skill，本场景是考评工具设计（HR 视角），不是长处型考评执行（管理者视角）。应建议用 OKR/KPI 等工具设计框架；本 skill 关心的是'四问作为最终决策输入'，不是工具设计本身。",
+      "notes": "跨 skill 混淆诱饵：本 skill 是决策工具，不是工具设计工具。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我要给一个新入职 4 个月的下属做试用期评估，没有实绩数据，怎么用四问？",
+      "expected_behavior": "可以激活本 skill，但必须在 B 段边界上明确告知：观察期 < 6 个月实绩数据不足，本 skill 的第一步'期望贡献与对照实绩'无依据。应等 6 个月后再做，或仅做'试用期评估'（观察能否进入正式任用），不进入四问。",
+      "notes": "边界场景：触发条件成立（考评决策），但证据不足，考验 skill 是否诚实收敛。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻工具的跨 skill 混淆测试。"
+}

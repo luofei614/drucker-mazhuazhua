@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-job-redesign",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我们的'AI 转型负责人'两年换了三任，都是外招明星，行业普遍如此，怎么办？",
+      "expected_behavior": "应激活 drucker-job-redesign：判据是关键——这三个人在上一岗都干得很出色吗？若是 → 病因在职位不在人。识别职位要求的同时不可能组合（懂技术架构+推动业务变革+争取资源），拆分职位。",
+      "notes": "V2 预测力测试场景：典型'行业普遍高失败率'案例，是职位设计错的同构证据。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我们的'全面营销负责人'招了一年半，没一个干过半年以上，要不要提高薪酬包再试一次？",
+      "expected_behavior": "应激活 drucker-job-redesign：识别'全面营销负责人'是无人胜任职位（要求既懂销售又懂广告，难共存）。处置不是加大招聘/提高薪酬——这是本 skill 的核心反直觉——而是拆分职位（按业务线/市场成熟度）。",
+      "notes": "正面场景：用户准备用加大招聘力度解决，本 skill 应明确告知这是徒劳。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们的'国际业务副总裁'招了三任，每任都是大厂空降高管，半年就走，怎么办？",
+      "expected_behavior": "应激活 drucker-job-redesign：典型德鲁克五类无人胜任职位之一（跨国公司国际业务副总裁）。识别职位同时要求多个不共存的能力，按市场共性拆分。",
+      "notes": "正面场景：德鲁克原书五类无人胜任职位之一的高保真场景。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们要招一位产品经理，候选人在上一家创业公司做运营表现很好，但产品岗位经验不足，要用吗？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-strength-staffing。本场景是新人在原岗位表现卓越（运营），归因方向在人，应回到用人三问（本 skill 默认病因在职位）。没有'前任连续挫败'证据，本 skill 不适用。",
+      "notes": "跨 skill 混淆诱饵：同样是用人难题，但归因方向相反——本 skill 默认病因在职位，那个 skill 默认病因在人。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们某个资深员工想换岗到新业务线，但负责人说'他走了这边就转不动'，要不要挽留？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-indispensable-person。'少不了'是组织病灶的指示器（本人不成/替上级兜底/掩盖问题），本场景是单点依赖问题，应启动三诊断立刻调离。本 skill 关心'职位重设计'，那个 skill 关心'单点依赖打破'。",
+      "notes": "跨 skill 混淆诱饵：同为第4章用人内容，但本 skill 关心职位，那个 skill 关心人。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我们公司刚成立半年，CEO 同时兼任产品负责人，半年后要拆分 CEO 与产品两个角色，但现在没人胜任产品负责人，怎么办？",
+      "expected_behavior": "可以激活本 skill，但必须在 B 段边界上明确告知：创始人驱动型公司早期'CEO = 产品经理'的多重角色合理，不属本 skill 范畴；本 skill 不适用于 5 人以下早期阶段。本场景应在 12-24 个月组织稳定后再评估职位是否需要拆分。",
+      "notes": "边界场景：触发条件成立（职位无人胜任），但创业期不适用本 skill。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是同书兄弟 skill 的跨 skill 混淆测试。"
+}

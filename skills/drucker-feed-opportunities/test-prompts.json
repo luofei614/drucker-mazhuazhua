@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-feed-opportunities",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "明年预算只够加 2 个人，是给正在亏损的老产品线补人，还是给新业务？",
+      "expected_behavior": "应激活 drucker-feed-opportunities：判据是看最优秀的那批人在做什么——若他们都在救火/历史遗留/过时产品线，组织就在'喂饱问题、饿死机会'。解决问题最多只能恢复昨日的平衡，机会才产出成果。'短处全无，则会成果全无'——把最优秀的人放在防守位等于用稀缺长处补昨天的洞。",
+      "notes": "V2 预测力测试场景：典型'预算分配'困境。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我们组织持续在'救火'，所有人都在应对昨天的问题，怎么办？",
+      "expected_behavior": "应激活 drucker-feed-opportunities：诊断为典型'喂饱问题饿死机会'。列出最优秀的人当前在做什么（识别是机会还是问题），重新配置（最优秀的人从问题调到机会任务）。配套制度性保护（最长处置时间/最低机会任务占比/考核权重）。",
+      "notes": "正面场景：组织持续救火的根本诊断。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们刚砍掉一批老业务，释放出 3 个优秀人才，怎么配置？",
+      "expected_behavior": "应激活 drucker-feed-opportunities：砍掉旧活动释放出的人才必须立刻转投新机会（否则砍掉毫无价值）。把人才放在机会任务上而非问题上。明确告知：本 skill 是 drucker-abandon-yesterday 的资源去向，顺序应先 abandon-yesterday（释放）后本 skill（配置）。",
+      "notes": "正面场景：砍旧后的资源去向。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们要不要砍掉一批老业务？",
+      "expected_behavior": "不应激活本 skill（除非先识别砍/不砍），应激活 drucker-abandon-yesterday。本 skill 关心'如何**配置**资源'（投新机会），那个 skill 关心'如何**释放**资源'（砍旧）。顺序应先那个 skill（释放）后本 skill（配置）。",
+      "notes": "跨 skill 混淆（硬性要求）：本 skill 是配置，那个 skill 是释放。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们要不要选一位人才做新业务负责人？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-strength-staffing。本 skill 关心'资源放在哪里'，那个 skill 关心'如何选对人'。本 skill 是 strength-staffing 的资源后盾——优秀的人放在机会上比放在巩固防御位更有价值。",
+      "notes": "跨 skill 混淆诱饵：资源位置 vs 选人判据。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我们公司主营业务是客服/运维，全员都在'处理问题'，是不是应该把客服人员都撤去做'机会'任务？",
+      "expected_behavior": "可以激活本 skill，但必须在 B 段边界上明确告知：B2B 服务性业务（客服、运维、合规底线）天然是'问题型'——本 skill 不应让客服人员全部撤去做'机会'任务，否则基础服务塌方。本 skill 的应用范围应限于'非基础性、非生命攸关'的领域。",
+      "notes": "边界场景：触发条件成立（资源配置），但基础服务型业务不适用本 skill。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}

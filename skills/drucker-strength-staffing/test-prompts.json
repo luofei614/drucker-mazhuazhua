@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-strength-staffing",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我要招一位 AI 应用负责人，候选人是 35 岁算法专家，没带过团队，沟通有短板，用不用？",
+      "expected_behavior": "应激活 drucker-strength-staffing：先确认职位客观（这个职位要交付什么），再走用人三问（有长处吗/长处相关吗/能成果吗），按'有高峰就有深谷'通过职位安排让短处无关紧要，最后正直一票否决。",
+      "notes": "V2 预测力测试场景：典型'短板明显但长处致命'决策。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "JD 写了三版了，越改越长，要求'全面''成熟''没有明显短板''综合素质好'，但还是找不到合适的候选人。",
+      "expected_behavior": "应激活 drucker-strength-staffing：诊断 JD 语言信号——出现'全面/成熟/没有短板'说明'开方子寻找平庸'。需重写 JD，明确职位客观要交付的关键任务，再做用人三问。",
+      "notes": "正面场景：JD 语言暴露用人哲学错误。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "要不要给某资深专家专门设个新岗？他说'如果公司不给他这个位置，他就走'。",
+      "expected_behavior": "应激活 drucker-strength-staffing：识别'因人设岗'信号——基调已从'什么是正确的'滑向'谁是正确的'。明确告知：因人设岗'几乎必然导致徇私和顺从'，组织是互相咬合的齿轮系统。",
+      "notes": "正面场景：因人设岗诱惑出现。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们的'AI 转型负责人'两年换了三任，都是外招明星，行业普遍如此，怎么办？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-job-redesign。判据是'前任在上一岗表现出色吗'，若是 → 病因在职位不在人，应拆职位而非加大招聘力度。本 skill 是选人判据，本场景是该拆职位了。",
+      "notes": "跨 skill 混淆（硬性要求）：同为第4章用人内容，但归因方向不同——本 skill 默认病因在人，那个 skill 默认病因在职位。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们公司某关键岗位上的人'走不了'，走了这边就停摆，怎么挽留？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-indispensable-person。'少不了'是组织病灶的指示器（本人不成/替上级兜底/掩盖问题），不是对人的最高褒奖。应启动三诊断，立刻调离或暴露问题。本 skill 关心'选人'，本场景是'已选错如何处置'。",
+      "notes": "跨 skill 混淆诱饵：同为第4章用人内容，但本 skill 关心选人判据，那个 skill 关心'单点依赖如何打破'。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "要给一个新入职 3 个月、表现还不明朗但有强烈'感觉不错'的下属做年度晋升决策，怎么办？",
+      "expected_behavior": "可以激活本 skill，但必须在 B 段边界上明确告知：观察期 < 6 个月属正常磨合期，本 skill 的'用人三问'要求有事实证据链——'感觉不错'不是长处证据。应收集 3-6 个月的实绩后再做判断；判断后若有'正直一票否决'疑虑，第四问的答案是关键。",
+      "notes": "边界场景：触发条件成立（用人决策），但证据不足，考验 skill 是否诚实收敛。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是同书兄弟 skill 的跨 skill 混淆测试。"
+}

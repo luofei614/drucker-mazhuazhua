@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-abandon-yesterday",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "有一款还在赚钱的老产品，团队感情深，要不要停？",
+      "expected_behavior": "应激活 drucker-abandon-yesterday：识别'成功但已失去成效'（最危险类型，会持续很久）。举证责任倒置——'假如不是已经在做，**现在的市场、团队、战略下，还会启动吗**'，答案为否就停止或大幅减投。释放出的稀缺人才立刻转投机会。识别'自我投资神圣化'信号（如'这是当年我们打下来的'）。",
+      "notes": "V2 预测力测试场景：典型'老产品是否砍'困境。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我们准备启动一个新业务，但团队还在做旧业务，要不要并行？",
+      "expected_behavior": "应激活 drucker-abandon-yesterday：体重控制律——启动新之前先砍旧。新任务风险极高，要用最有能力的人，但他们正在做旧事；必须先减负。若无法释放资源 → 不启动；若必须启动 → 明确哪个新项目延迟。明确告知：新旧并行 → 旧事照做、新事半成。",
+      "notes": "正面场景：体重控制律的具体应用。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们有一批老业务还在赚钱，但战略上已经不属于'未来方向'，要不要砍？",
+      "expected_behavior": "应激活 drucker-abandon-yesterday：识别'赚钱但已失去成效'（机会成本视角）。举证责任倒置：现在的市场和战略下还会启动吗？识别'自我投资神圣化'信号。制定砍除与过渡，资源释放清单明确。",
+      "notes": "正面场景：机会成本视角的砍除决策。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们的资源分配中，最能干的人都在救火，怎么办？",
+      "expected_behavior": "不应激活本 skill（除非先砍旧），应激活 drucker-feed-opportunities。本 skill 关心'如何**释放**资源'（砍旧），那个 skill 关心'如何**配置**资源'（投新机会）。顺序应先本 skill（释放）后那个 skill（配置）。",
+      "notes": "跨 skill 混淆（硬性要求）：本 skill 是释放，那个 skill 是配置。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们的产品组合中，有多个项目，要不要排优先级？",
+      "expected_behavior": "不应激活本 skill（除非先识别砍/保留），应激活 drucker-priority-posteriority。本 skill 关心'砍/不砍'决策（项目级），那个 skill 关心'优先/延迟'排序（任务级）。本 skill 决定'砍掉什么'，那个 skill 决定'留下来做什么的顺序'。",
+      "notes": "跨 skill 混淆诱饵：项目级 vs 任务级。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我们的基础设施老旧了，要不要砍掉重建？",
+      "expected_behavior": "可以激活本 skill，但必须在 B 段边界上明确告知：基础设施/平台型投入不能用'今天还会启动吗'判断，因为它们是基础能力。本场景属基础设施型投资，本 skill 的'举证问题'可能失效。应评估'是否还有替代基础设施'而非'是否还会启动'。",
+      "notes": "边界场景：触发条件成立（砍/不砍决策），但基础设施型投入不适用本 skill 的核心判据。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}

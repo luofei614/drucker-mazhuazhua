@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-priority-posteriority",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "手上三个项目都重要，资源只够做两个，怎么选？",
+      "expected_behavior": "应激活 drucker-priority-posteriority：只列优先级等于没列——必须成对写出延迟任务（第三个项目明确写'本季度不做'并公开）。四勇气法则定序：重将来/重机会/自选方向/目标高远。压力画像自检（压力偏爱内部>外部、往事>未来、危机>机会）。聚焦三律（一次只一项/完成后再定下一项/时间留余地）。",
+      "notes": "V2 预测力测试场景：典型'多项目取舍'困境。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我列了 20 项工作优先级，但好像什么都没做完，怎么办？",
+      "expected_behavior": "应激活 drucker-priority-posteriority：诊断为典型'两头下注'——每个都做一点=一事无成。必须成对写出'延迟任务'（明确本季度不做）。聚焦三律：一次只推进一项，完成后重新评估再定下一项。明确告知：列出优先清单相对容易，写出'本季度不做'需要勇气。",
+      "notes": "正面场景：典型'两头下注'失败模式识别。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "季度规划了，但排程被各种紧急邮件/突发危机带着走，怎么办？",
+      "expected_behavior": "应激活 drucker-priority-posteriority：诊断为压力画像劫持——压力偏爱'内部>外部、往事>未来、危机>机会、直观>真实、紧急>有意义'。在排程前问'如果没压力我会怎么排'。明确告知：压力有系统性偏见，不是中性信号——这是本 skill 的核心反直觉。",
+      "notes": "正面场景：压力画像劫持识别。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我时间不够用，不知道时间去哪了，怎么办？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-time-log-consolidate。本 skill 关心'这些时间给谁'（分配问题），那个 skill 关心'我到底有多少可用时间'（容量问题）。**先有容量再谈分配**——本 skill 是 drucker-time-log-consolidate 的下游。",
+      "notes": "跨 skill 混淆诱饵：分配 vs 容量。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们有一批老业务还在赚钱，但战略上已经不属于'未来方向'，要不要砍？",
+      "expected_behavior": "不应激活本 skill（除非先识别砍/保留），应激活 drucker-abandon-yesterday。本 skill 关心'任务级排序'，那个 skill 关心'项目级砍/不砍'。本 skill 决定'留下来做什么的顺序'，那个 skill 决定'砍掉什么'。",
+      "notes": "跨 skill 混淆诱饵：任务级 vs 项目级。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我们公司刚发生重大安全事故，全员需要立刻响应，需要做'优先/延迟'吗？",
+      "expected_behavior": "不应激活本 skill，应走紧急危机处置流程——所有可调动的资源都该上。明确告知：本 skill 不适用于紧急危机。危机结束后，应再做本 skill 的复盘，避免'短期危机当常态'。",
+      "notes": "边界场景：紧急危机下本 skill 不适用。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}

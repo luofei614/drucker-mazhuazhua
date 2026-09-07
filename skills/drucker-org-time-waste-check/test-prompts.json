@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-org-time-waste-check",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我们公司会议特别多，我一周大概三分之一时间都在会上，而且很多会开完也没结论。",
+      "expected_behavior": "应激活 drucker-org-time-waste-check：先量化会议占比（≥1/4 即结构缺陷），然后不谈'怎么少开会'，而是追问'为什么这项工作需要通过会议协调'——通常是本该由一个职位/部门完成的工作被分散了；对必须开的会再给会议三件套。",
+      "notes": "核心正面场景，且命中可量化阈值（1/3 > 1/4）。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "同样的线上故障这个季度出了三次，每次都是临时拉人救火，救完就完了，下次还出。",
+      "expected_behavior": "应激活 drucker-org-time-waste-check：识别为'反复危机'（第二次出现即须根除），要求把它转化为未经训练的人也能照做的常规工作或预警指标。",
+      "notes": "病症①的典型：同一危机出现第二次以上。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "总部每月给一线发的数据报表，业务那边每次都要花几个小时自己重新算一遍才能用，说我们给的东西没用。",
+      "expected_behavior": "应激活 drucker-org-time-waste-check：识别为'信息失灵'（送达了但格式不对），做法是去问接收方'你需要什么、什么时候要、以什么形式要'，典型修法是把平均值换成范围与极值。",
+      "notes": "病症④的典型，且与'贡献由接收方定义'同源。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "帮我看看明天下午的会怎么准备，议程怎么写比较清楚。",
+      "expected_behavior": "不应激活本 skill。这是单场会议的准备问题，不涉及组织层四类病症。若用户确实需要，可引用本 skill E 段第 6 步的会议三件套作为轻量建议，但不做组织诊断。",
+      "notes": "诱饵类型：关键词'会议'命中，但层级是单场会议操作而非组织效能诊断。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们公司那个'新业务负责人'的位置两年换了三个人，都是外招的明星，来了都干不好。",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-job-redesign。判据是'连续挫败两三个在上一岗表现出色的人'——病因在职位设计不在人，处置是重新设计职位而非加大招聘或组织体检。",
+      "notes": "跨 skill 混淆诱饵（硬性要求）：同属组织层诊断，但一个是结构面（本 skill）、一个是单点职位（drucker-job-redesign）。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我们是全员远程、文档驱动、几乎没有例会的团队，但交付速度一直上不去，大家也说不清卡在哪。",
+      "expected_behavior": "可以激活本 skill，但必须处理 B 段的时代局限：在异步优先的组织里，'会议是结构缺陷的补救'可能相反——会议可能是弥补异步沟通不足的必要手段。因此'会议 ≥1/4'只作为'值得追问'的信号而非定罪；重点应转向病症④信息格式失灵（异步组织的时间浪费主要迁移到了这一支：一线要的是可检索的结构化上下文，而团队给的仍是会议纪要式叙述）。",
+      "notes": "边界场景：正面触发但时代局限命中，考验 skill 是否会调整判据而不是机械套用阈值。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。should-not-trigger-02 为同书兄弟 skill 的跨 skill 混淆测试。"
+}

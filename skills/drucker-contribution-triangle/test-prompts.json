@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-contribution-triangle",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我是内部数据平台负责人，没有外部付费客户，怎么定义我的贡献？",
+      "expected_behavior": "应激活 drucker-contribution-triangle：'成果在外部'不等于必须有付费客户——贡献由接收方定义。直接问业务线分析师'你需要我提供什么、何时、以什么形式'。三维度分别作答：直接成果/确立价值/培育人才。硬红线：QPS、表数量、平台覆盖率都不是成果（内部只有努力和成本）。",
+      "notes": "V2 预测力测试场景：内部平台型岗位的贡献定义。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我们部门刚换了新负责人，业绩和过去类似，但战略方向还没定，要不要调整？",
+      "expected_behavior": "应激活 drucker-contribution-triangle：履新后贡献三维度相对重要性会改变（'管理者失败的最常见的原因，是不能或者不愿按新职位的要求做出改变'）。需重新问三问：①我能做出什么贡献？②谁会用我的产出？③新职位的三维度排序是什么？",
+      "notes": "正面场景：新职位的贡献重估。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们做了很多内部流程优化（数据中台、统一身份、监控系统），但老板说'看不出价值'，怎么办？",
+      "expected_behavior": "应激活 drucker-contribution-triangle：诊断为典型'内部只有成本'——流程优化在内部视角看是成果，在外部视角看只是努力成本。举证责任在专家一侧——'掌握知识的人始终应当承担起让他人理解的责任'。需用接收方语言重述成果（业务侧获得了什么/客户侧获得了什么）。",
+      "notes": "正面场景：内部努力的贡献重定义。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们要不要给老板写一份季度汇报，重点讲数据平台的成果？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-managing-up。本 skill 关心'贡献是什么'（定位），那个 skill 关心'如何让上级采纳'（方式/呈现）。先本 skill 明确'该交付什么'，再那个 skill 决定'怎么交付'。",
+      "notes": "跨 skill 混淆诱饵：定位 vs 方式。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我时间不够用，不知道时间去哪了，怎么办？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-time-log-consolidate。本 skill 关心'贡献是什么'（输出定位），那个 skill 关心'我有多少可用时间'（容量）。先有容量再谈贡献。",
+      "notes": "跨 skill 混淆诱饵：容量 vs 定位。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我是开源社区的独立维护者，没有付费客户也没有明确接收方，怎么定义我的贡献？",
+      "expected_behavior": "可以激活本 skill，但必须在 B 段边界上明确告知：本 skill 的'成果在外部'原则在开源社区部分失效（接收方是模糊的全球开发者），且贡献三维度排序特殊——很可能'培育人才/建立社区'重于'直接成果'。应建议使用本 skill 的核心问法'贡献由接收方定义'，但在开源场景下接收方需主动识别（用户访谈/issue 模式分析）。",
+      "notes": "边界场景：触发条件成立（贡献定义），但开源/无明确接收方场景下本 skill 需调整使用。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}

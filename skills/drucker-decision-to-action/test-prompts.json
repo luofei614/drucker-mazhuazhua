@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-decision-to-action",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "公司宣布全面使用 AI 编程工具，三个月了没人用，为什么？",
+      "expected_behavior": "应激活 drucker-decision-to-action：决策在'分解成具体工作'之前'顶多算良好的愿望'。四问：①谁必须知情（最易漏，会因为不知道而继续按旧规则做事——采购员按销量比例进货，仓库积压够用 8-10 年）；②必须采取哪些行动；③谁负责；④行动必须长什么样才能让负责人施行。激励同步——衡量手段/绩效标准/激励必须同步改。",
+      "notes": "V2 预测力测试场景：典型'决策宣布后没人执行'困境。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我们的一项战略决策宣布了 3 个月仍停留在口号层面，怎么办？",
+      "expected_behavior": "应激活 drucker-decision-to-action：诊断为'未分解为具体工作'——决策与执行被当成两个阶段。启动四问：①谁必须知情（不仅'谁负责干'，更'谁会因不知道而继续按旧规则做事'）；②行动清单；③负责人；④行动与执行者能力匹配。激励同步——决策要求改变行为/习惯/态度，衡量手段/绩效标准/激励必须同步改。",
+      "notes": "正面场景：典型决策未落地的根本诊断。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们要求员工改变行为（比如跨部门协作），但考核表仍按旧标准，怎么办？",
+      "expected_behavior": "应激活 drucker-decision-to-action：诊断为'激励不同步'——决策要求新行为但衡量与激励仍按旧规则。明确告知：决策会被悄悄废弃——不是因为有人反对，而是因为没有人会真正按新决策行动（他们按旧规则行动更划算）。激励同步三件套：衡量手段/绩效标准/激励手段。",
+      "notes": "正面场景：激励不同步的根本诊断。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们要不要做这个决策？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-decision-necessity。本 skill 关心'如何把决策**落地**'（决策后），那个 skill 关心'要不要决策'（决策前）。顺序应先那个 skill 决定做不做，再本 skill 决定怎么做。",
+      "notes": "跨 skill 混淆诱饵：决策前 vs 决策后。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们要做这个决策了，怎么定义决策目标？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-boundary-conditions。本 skill 关心'如何把决策落地'（行动安排），那个 skill 关心'决策**目标**的边界定义'。顺序：先那个 skill 定义边界，再本 skill 安排行动。",
+      "notes": "跨 skill 混淆诱饵：行动安排 vs 边界定义。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我们公司发生重大财务危机，必须立即执行资金冻结等紧急动作，需要走决策落地四问吗？",
+      "expected_behavior": "不应激活本 skill，应走紧急危机处置流程——立即执行，不需要完整四问与激励同步。明确告知：本 skill 不适用于紧急危机。危机结束后，应复盘哪些行动需要后续激励同步。",
+      "notes": "边界场景：紧急危机下本 skill 不适用。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}

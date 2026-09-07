@@ -1,0 +1,52 @@
+{
+  "skill": "drucker-boundary-conditions",
+  "version": "0.1.0",
+  "source_book": "《卓有成效的管理者》 — 彼得·德鲁克",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "老板要我三个月内把部门 AI 使用率做到 80%，这个目标能接吗？",
+      "expected_behavior": "应激活 drucker-boundary-conditions：先写边界条件五问（要达到什么目的/最低目标是什么/必须满足哪些条件/什么情况下放弃/边界条件之间本质关系）。识别'定义错误的边界条件'（把代理指标当边界条件，比没有更糟）。检验最危险决策形态（依赖'一切都不出差错'才奏效）。先正确后妥协——半面包/半婴儿判据。",
+      "notes": "V2 预测力测试场景：典型'目标能接吗'困境。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我们准备做战略妥协，但不知道妥协到哪一步算合理，怎么办？",
+      "expected_behavior": "应激活 drucker-boundary-conditions：先想清楚'什么是正确的完整解'（假设无约束），再谈可接受的妥协——'先正确后妥协'。用'半面包/半婴儿'判据：妥协后是否仍满足边界条件。明确告知：正因为妥协不可避免，起点才更不能是妥协——与常识相反。",
+      "notes": "正面场景：'先正确后妥协'论证逻辑应用。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们的一项决策执行一年了，不知何时该放弃，怎么办？",
+      "expected_behavior": "应激活 drucker-boundary-conditions：识别为'无放弃条件'问题——开始就要做到底 = 沉没成本绑架。写明决策的放弃条件（触发什么信号→立即停止；谁有权决定放弃）。明确告知：决策的放弃条件与开始条件同等重要。",
+      "notes": "正面场景：放弃条件识别与制定。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们要做这个决策了，问题类型是共性还是例外？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-generic-vs-exception。本 skill 关心'决策**目标**的边界'（边界条件），那个 skill 关心'问题**类型**的归类'。本 skill 在决策确定要做之后启动；那个 skill 在决策前归类问题。",
+      "notes": "跨 skill 混淆诱饵：边界条件 vs 问题归类。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们要不要做这个决策？",
+      "expected_behavior": "不应激活本 skill，应激活 drucker-decision-necessity。本 skill 关心'决策目标的边界定义'（决策中），那个 skill 关心'决策**前**的必要性判断'。本 skill 在决策确定要做之后启动；那个 skill 在决策前判断做不做。",
+      "notes": "跨 skill 混淆诱饵：边界定义 vs 必要性判断。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我们要'做得更好'（定性目标），需要定义边界条件吗？",
+      "expected_behavior": "不应激活本 skill，本场景是纯定性目标——不可衡量的目标不是边界条件。明确告知：本 skill 不适用于纯定性目标（'做得更好''提升能力'等），必须先转化为可衡量的目标。",
+      "notes": "边界场景：定性目标不适用本 skill。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），其中 should-not-trigger-01 与 should-not-trigger-02 都是相邻 skill 的跨 skill 混淆测试。"
+}
